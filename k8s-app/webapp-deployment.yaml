@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp
+        image: test-lab-docker-kubernetes-admin-webapp:latest # localでdocker compose buildで生成されたイメージを指定
+        env:
+        - name: REDIS_HOST
+          value: "redis"
+        ports:
+        - containerPort: 5000

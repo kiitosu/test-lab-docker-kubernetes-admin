@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  ports:
+  - port: 8080 # サービスが受け付けるポート
+    targetPort: 80 # podが待っているポートに転送
+  selector: # 転送対象はnginxのlabelがついたpod
+    app: nginx

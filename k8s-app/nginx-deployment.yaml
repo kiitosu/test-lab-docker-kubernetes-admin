@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1 # podを一つ起動
+  selector: # 管理対象のラベル条件
+    matchLabels:
+      app: nginx
+  template: # 起動するpodの定義
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts: # configファイルをサービスから参照する
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+      volumes:
+      - name: nginx-config
+        configMap: # 使用するconfigMapを指定。kubernetesにconfigを宣言して利用可能にする感じ
+          name: nginx-config
